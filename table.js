@@ -73,7 +73,7 @@ var CTable = (function () {
         divTw.id = id;
         var tdTw = document.createElement('td');
         var tableAA = document.createElement('table');
-        var tableA = document.getElementById('TableTable');
+        var tableA = document.getElementById('OutputTable');
         tableAA.appendChild(tableB);
         tableB.appendChild(trA);
         trA.appendChild(tdA);

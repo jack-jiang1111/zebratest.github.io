@@ -1,0 +1,19 @@
+_main:
+        mov (8|M0)               r10.0<1>:ud   r6.0<1;1,0>:ud                                        // $1
+        mov (8|M0)               r11.0<1>:ud   r7.0<1;1,0>:ud                                        // $2
+        mov (8|M0)               r12.0<1>:ud   r8.0<1;1,0>:ud                                        // $3
+        mov (8|M0)               r13.0<1>:f    r9.0<1;1,0>:f                    {Compacted}          // $4
+        mov (8|M0)               r119.0<1>:f   0x3C003C00:f                                          // $6
+        mov (8|M0)               r123.0<1>:f   r2.0<1;1,0>:f                    {Compacted}          // $7
+        mov (8|M0)               r124.0<1>:f   r3.0<1;1,0>:f                    {Compacted}          // $8
+        mov (8|M0)               r125.0<1>:f   r4.0<1;1,0>:f                    {Compacted}          // $9
+        mov (8|M0)               r126.0<1>:f   r5.0<1;1,0>:f                    {Compacted}          // $10
+(W)     mov (8|M0)               r127.0<1>:d   r1.0<1;1,0>:d                                         // $11
+        send.urb (8|M0)          null     r1      r10:8   0x0            0x02080027           {A@2,$0} // wr:1h+8, rd:0; urb dword write // $5
+        send.urb (8|M0)          null     r127    r119:8  0x0            0x02080007           {EOT,A@1} // wr:1h+8, rd:0; urb dword write // $11
+L152:
+        nop                                                                                          // $11
+(W)     mov (16|M0)              null<1>:ud    0x86502758:ud                                         // 
+(W)     mov (16|M0)              null<1>:ud    0x1E717FD3:ud                                         // 
+(W)     mov (16|M0)              null<1>:ud    0xDF834E71:ud                                         // 
+(W)     mov (16|M0)              null<1>:ud    0x8457CF1:ud                                          // 

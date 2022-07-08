@@ -75,9 +75,9 @@ window.onload = function () {
             VisualizeClick();
         }
     });
-    setEvetList(document.getElementById("button2"), 'click', VisualizeClick);
-    setEvetList(document.getElementById("button3"), 'click', DeleteArea);
-    setEvetList(document.getElementById("button4"), 'click', GetErrorList);
-    setEvetList(document.getElementById("button5"), 'click', GetHelp);
+    setEvetList(document.getElementById("Visualise"), 'click', VisualizeClick);
+    setEvetList(document.getElementById("Clean"), 'click', DeleteArea);
+    setEvetList(document.getElementById("Info_List"), 'click', GetErrorList);
+    setEvetList(document.getElementById("Help"), 'click', GetHelp);
 };
 //# sourceMappingURL=zebra.js.map

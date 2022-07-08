@@ -303,64 +303,73 @@ var CParseRegion = (function () {
     };
     CParseRegion.prototype.checkList = function () {
         for (var i = 0; i < this.m_list.length; i++) {
-            if (this.m_list[1].search("r") < 0) {
-                if (this.m_list[0].indexOf(")") > -1) {
-                    var temp = this.m_list[0].split(")");
-                    if (temp[1].indexOf("(") > -1) {
-                        if (temp[0].search("f") > -1) {
-                            var temp3 = temp[0].split("f");
-                        }
-                        var temp2 = temp[1].split("(");
-                        if (i == 0) {
-                            this.m_list[0] = temp2[0] + ".f" + temp3[1] + "(" + temp2[1] + ")"; // insert data in one string that there would be no errors
-                        }
-                    }
-                }
+            if (this.m_list[1].search("r") >= 0){
+                continue;
+            }
+            if (this.m_list[0].indexOf(")") <= -1) {
+                continue;
+            }
+            var temp = this.m_list[0].split(")");
+            if (temp[1].indexOf("(") <= -1){
+                continue;
+            }
+            if (temp[0].search("f") > -1) {
+                var temp3 = temp[0].split("f");
+            }
+            var temp2 = temp[1].split("(");
+            if (i == 0) {
+                this.m_list[0] = temp2[0] + ".f" + temp3[1] + "(" + temp2[1] + ")"; // insert data in one string that there would be no errors
             }
         }
     };
     CParseRegion.prototype.findCellFlag = function () {
         for (var i = 0; i < this.m_list.length; i++) {
-            if (this.m_list[1].search("f") < 0) {
-                var temp = this.m_list[0].split("f");
-                if (temp[1].search(".") > -1) {
-                    var temp2 = temp[1].split('.');
-                    if (temp2[2]) {
-                        var temp3 = temp2[2].split('');
-                        if (temp3[0] != 'z' ||
-                            temp3[0] != 'w' ||
-                            temp3[0] != 'y' ||
-                            temp3[0] != 'x ')
-                            this.m_CellFlagLine = [0, 1, 2, 3];
-                        else {
-                            for (var j = 0; j < 4; j++) {
-                                if (temp3[j] != 'z' ||
-                                    temp3[j] != 'w' ||
-                                    temp3[j] != 'y' ||
-                                    temp3[j] != 'x') {
-                                    j = 4;
-                                }
-                                else {
-                                    switch (temp3[i]) {
-                                        case 'x':
-                                            this.m_CellFlagLine[j] = 0;
-                                            break;
-                                        case 'y':
-                                            this.m_CellFlagLine[j] = 1;
-                                            break;
-                                        case 'z':
-                                            this.m_CellFlagLine[j] = 2;
-                                            break;
-                                        case 'w':
-                                            this.m_CellFlagLine[j] = 3;
-                                            break;
-                                    } // switch string to a number
-                                }
-                            }
-                        }
+            if (this.m_list[1].search("f") >= 0){
+                continue;
+            }
+            var temp = this.m_list[0].split("f");
+            if (temp[1].search(".") <= -1){
+                continue;
+            }         
+            var temp2 = temp[1].split('.');
+            if (!temp2[2]){
+                continue;
+            }
+            var temp3 = temp2[2].split('');
+            if (temp3[0] != 'z' ||
+                temp3[0] != 'w' ||
+                temp3[0] != 'y' ||
+                temp3[0] != 'x ')
+                this.m_CellFlagLine = [0, 1, 2, 3];
+            else {
+                for (var j = 0; j < 4; j++) {
+                    if (temp3[j] != 'z' ||
+                        temp3[j] != 'w' ||
+                        temp3[j] != 'y' ||
+                        temp3[j] != 'x') {
+                        j = 4;
+                    }
+                    else {
+                        switch (temp3[i]) {
+                            case 'x':
+                                this.m_CellFlagLine[j] = 0;
+                                break;
+                            case 'y':
+                                this.m_CellFlagLine[j] = 1;
+                                break;
+                            case 'z':
+                                this.m_CellFlagLine[j] = 2;
+                                break;
+                            case 'w':
+                                this.m_CellFlagLine[j] = 3;
+                                break;
+                        } // switch string to a number
                     }
                 }
             }
+            
+            
+            
         }
     };
     CParseRegion.prototype.getColorSetUp = function () {
@@ -502,7 +511,7 @@ var CParseRegion = (function () {
         }
         var tableB = document.createElement('tbody'); // adding
         var tableAA = document.createElement('table');
-        var tableA = document.getElementById('TableTable');
+        var tableA = document.getElementById('OutputTable');
         tableAA.appendChild(tableB);
         tableB.appendChild(trA);
         for (var i = 0; i < 3; i++) {
@@ -543,7 +552,7 @@ var CLastSetUpForSerial = (function () {
         this.m_firstReg = b;
         this.m_secondReg = c;
         this.m_nrOfTable = nn;
-        this.m_nrOfCollumns = 32;
+        this.m_nrOfCollumns = 32;//document.getElementById('bits');
         this.m_countOfTables = -1;
         this.m_nullFlag = n;
         this.m_inOneTable = new Array(); // table to organize which row (sources/destinatial) would be in which table
@@ -1101,9 +1110,9 @@ function VisualizeClick() {
     var start = new Date().getTime();
     var tabOfNumbers = [];
     var add = 0;
-    if (document.getElementById('TableTable')) {
-        var deleteT = document.getElementById('TableTable');
-        while (document.getElementById('TableTable').hasChildNodes()) {
+    if (document.getElementById('OutputTable')) { // clean the table
+        var deleteT = document.getElementById('OutputTable');
+        while (document.getElementById('OutputTable').hasChildNodes()) {
             deleteT.removeChild(deleteT.firstChild);
         }
     }
@@ -1118,7 +1127,7 @@ function VisualizeClick() {
         var j = 0;
         var PlatformType = document.getElementById('platforms');
         tab = a.value.split('\n'); // split each instruction 
-        var b = document.getElementById("TableTable");
+        var b = document.getElementById("OutputTable");
         for (var i = 0; i < tab.length; i++) {
             var tabt = tab[i].split(' ');
             var tabtemp = tabt.join('');
@@ -1198,9 +1207,9 @@ function DeleteArea() {
     while (listOfErrors.length > 0) {
         listOfErrors.pop();
     }
-    if (document.getElementById('TableTable')) {
-        var deleteT = document.getElementById('TableTable');
-        while (document.getElementById('TableTable').hasChildNodes()) {
+    if (document.getElementById('OutputTable')) {
+        var deleteT = document.getElementById('OutputTable');
+        while (document.getElementById('OutputTable').hasChildNodes()) {
             deleteT.removeChild(deleteT.firstChild);
         }
     }
@@ -1233,11 +1242,6 @@ function GetErrorList() {
             }
         }
     }
-    /*
-        if ( count % 2 == 1 )
-        {
-            myWindowError.close();      // when double click disappear the window (to not to double the list)
-        }*/
 }
 /*****************************************************************************\
  

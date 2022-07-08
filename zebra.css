@@ -462,29 +462,33 @@ span {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3296A3', endColorstr='#7b68ee', GradientType=1 );
 }
 
-#button2{
+#Visualise{
     background-color:#306D96;
+    border-radius: 15px;
     border:none;
     color:cornsilk;
     padding:15px 45px;
     font-size:16px;
 }
-#button3{
+#Clean{
     background-color:#306D96;
+    border-radius: 15px;
     border:none;
     color:cornsilk;
     padding:15px 45px;
     font-size:16px;
 }
-#button5{
+#Info_List{
     background-color:#306D96;
+    border-radius: 15px;
     border:none;
     color:cornsilk;
     padding:15px 45px;
     font-size:16px;
 }
-#button4{
+#Help{
     background-color:#306D96;
+    border-radius: 15px;
     border:none;
     color:cornsilk;
     padding:15px 45px;
@@ -598,7 +602,7 @@ span {
     display: table-cell;
 }
 
-#TableTable{
+#OutputTable{
     width: 90%;
     align-content: center;
     align-self:center;

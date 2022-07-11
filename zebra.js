@@ -68,16 +68,17 @@ window.onload = function () {
     }
     $('textarea#textA').keydown(function (e) {
         if (e.keyCode === 13 && e.ctrlKey) {
-            VisualizeClick();
+            VisualizeClick(document.getElementById('textA'));
         }
     }).keypress(function (e) {
         if (e.keyCode === 13 && e.ctrlKey) {
-            VisualizeClick();
+            VisualizeClick(document.getElementById('textA'));
         }
     });
     setEvetList(document.getElementById("Visualise"), 'click', VisualizeClick);
     setEvetList(document.getElementById("Clean"), 'click', DeleteArea);
     setEvetList(document.getElementById("Info_List"), 'click', GetErrorList);
     setEvetList(document.getElementById("Help"), 'click', GetHelp);
+    setEvetList(document.getElementById("Example"),'click',ShowExample);
 };
 //# sourceMappingURL=zebra.js.map

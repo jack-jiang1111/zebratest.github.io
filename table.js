@@ -159,7 +159,7 @@ var CTable = (function () {
                         td.style.borderLeft = "2px solid";
                     var y = j % this.m_typeOfWord;
                     if (j % this.m_typeOfWord != 0 &&
-                        j != 32) {
+                        j != document.getElementById('bits').value) {
                         td.id = cellHeader_withoutBorder;
                     }
                     if (((j + this.m_typeOfWord - 1) / this.m_typeOfWord) % 4 == 0)
@@ -202,7 +202,7 @@ var CTable = (function () {
         }
         function getVal(cell) {
             var gran = document.getElementById('granularity');
-            var n = 32 - cell.cellIndex;
+            var n = document.getElementById('bits').value - cell.cellIndex;
             cell.style.fontSize = "10px";
             cell.textContent = "" + (Round(((n - 1) / parseInt(gran.value, 10)) - 0.5, 0));
         }
@@ -300,7 +300,7 @@ var CTable = (function () {
         }
         function getVal(cell) {
             var granur = document.getElementById('granularity');
-            var n = 32 - cell.cellIndex;
+            var n = document.getElementById('bits').value - cell.cellIndex;
             cell.style.fontSize = "10px";
             cell.textContent = "" + (Round(((n - 1) / parseInt(granur.value, 10)) - 0.5, 0));
         }

@@ -178,7 +178,7 @@ var CParseRegion = (function () {
                                 nrOfRow = t.getRow();
                                 Type = t.getType();
                                 this.m_typeOfRegioning = 0;
-                                var tempT = new CTable(3, 32, "myTable" + this.m_addFromNewParse, this.m_typeOfRegioning, Type, t.getFlagLabel(), nrOfRow - 1, this.m_typeOfRegioning, this.m_CellFlagLine);
+                                var tempT = new CTable(3, this.m_nrOfCollumns, "myTable" + this.m_addFromNewParse, this.m_typeOfRegioning, Type, t.getFlagLabel(), nrOfRow - 1, this.m_typeOfRegioning, this.m_CellFlagLine);
                                 tempT.addTable();
                                 if (this.m_typeOfRegioning)
                                     tempT.getFlagTable("myTable" + this.m_addFromNewParse + "myTable" + this.m_addFromNewParse, "green");
@@ -206,7 +206,7 @@ var CParseRegion = (function () {
                                     nrOfRow = t.getRow();
                                     Type = t.getType();
                                     this.m_typeOfRegioning = 0;
-                                    var tempT = new CTable(3, 32, "myTable" + this.m_addFromNewParse, this.m_typeOfRegioning, Type, t.getFlagLabel(), nrOfRow - 1, this.m_typeOfRegioning, this.m_CellFlagLine);
+                                    var tempT = new CTable(3, this.m_nrOfCollumns, "myTable" + this.m_addFromNewParse, this.m_typeOfRegioning, Type, t.getFlagLabel(), nrOfRow - 1, this.m_typeOfRegioning, this.m_CellFlagLine);
                                     tempT.addTable();
                                     if (this.m_typeOfRegioning)
                                         tempT.getFlagTable("myTable" + this.m_addFromNewParse + "myTable" + this.m_addFromNewParse, "green");
@@ -238,7 +238,7 @@ var CParseRegion = (function () {
                                     Type = t.getThisType();
                                     this.m_typeOfRegioning = 1;
                                     t.getNumbers();
-                                    var tempT2 = new CTableForParall(3, 32, "myTable" + this.m_addFromNewParse, this.m_typeOfRegioning, Type, t.getFlagLabel(), nrOfRow - 1, this.m_typeOfRegioning, this.m_CellFlagLine);
+                                    var tempT2 = new CTableForParall(3, this.m_nrOfCollumns, "myTable" + this.m_addFromNewParse, this.m_typeOfRegioning, Type, t.getFlagLabel(), nrOfRow - 1, this.m_typeOfRegioning, this.m_CellFlagLine);
                                     tempT2.addTable();
                                     if (!this.m_typeOfRegioning)
                                         tempT2.getFlagTable("myTable" + this.m_addFromNewParse + "myTable" + this.m_addFromNewParse, "green");
@@ -268,7 +268,7 @@ var CParseRegion = (function () {
                                     t.getType();
                                     Type = t.getThisType();
                                     this.m_typeOfRegioning = 1;
-                                    var tempT2 = new CTableForParall(3, 32, "myTable" + this.m_addFromNewParse, this.m_typeOfRegioning, Type, t.getFlagLabel(), nrOfRow - 1, this.m_typeOfRegioning, this.m_CellFlagLine);
+                                    var tempT2 = new CTableForParall(3, this.m_nrOfCollumns, "myTable" + this.m_addFromNewParse, this.m_typeOfRegioning, Type, t.getFlagLabel(), nrOfRow - 1, this.m_typeOfRegioning, this.m_CellFlagLine);
                                     tempT2.addTable();
                                     if (!this.m_typeOfRegioning)
                                         tempT2.getFlagTable("myTable" + this.m_addFromNewParse + "myTable" + this.m_addFromNewParse, "green");
@@ -552,7 +552,7 @@ var CLastSetUpForSerial = (function () {
         this.m_firstReg = b;
         this.m_secondReg = c;
         this.m_nrOfTable = nn;
-        this.m_nrOfCollumns = 32;//document.getElementById('bits');
+        this.m_nrOfCollumns = document.getElementById('bits').value;
         this.m_countOfTables = -1;
         this.m_nullFlag = n;
         this.m_inOneTable = new Array(); // table to organize which row (sources/destinatial) would be in which table
@@ -573,7 +573,7 @@ var CLastSetUpForSerial = (function () {
              this.findFlag();*/
         this.findMINMAX();
         this.getAvgInCorrectOrder();
-        this.CheckHowManyTabels();
+        this.CheckHowManyTables();
         this.drawTables();
     };
     CLastSetUpForSerial.prototype.getMin = function () {
@@ -738,7 +738,7 @@ var CLastSetUpForSerial = (function () {
             }
         }
     };
-    CLastSetUpForSerial.prototype.CheckHowManyTabels = function () {
+    CLastSetUpForSerial.prototype.CheckHowManyTables = function () {
         if (this.m_max - this.m_min < 8) {
             var temp = 0;
             for (var k = 0; k < this.m_ARFnumber.length; k++) {
@@ -1072,7 +1072,7 @@ var CLastSetUp = (function (_super) {
             this.findARF();
         this.findMINMAX();
         this.getAvgInCorrectOrder();
-        this.CheckHowManyTabels();
+        this.CheckHowManyTables();
         this.drawTables();
     };
     CLastSetUp.prototype.sourceR = function (a, count) {
@@ -1298,6 +1298,34 @@ function GetHelp() {
     myWindowHelp.document.write("<p>23 Sep 2016 - Zebra 1.02 - visualizer fixes for few situations, changed colors, refactored code </p>");
     myWindowHelp.document.write("<p>9 Sep 2016 - Zebra 1.01 - improved look across browsers, cleaned UI and help</p>");
     myWindowHelp.document.write("<p>1 Sep 2016 - Zebra 1.0</p>");
+}
+
+/*****************************************************************************\
+ 
+Function: ShowExample
+ 
+Description: function to show a few simple example
+ 
+Input: none
+ 
+Output: none
+ 
+\*****************************************************************************/
+function ShowExample(){
+    document.getElementById('textA').value = 
+"// This example shows a operation moving 8 elements from r7 to r11\n\
+mov (8|M0)               r11.0<1>:ud   r7.0<1;1,0>:ud\n\
+// Next example shows moving 16 elements from r7 to r11\n\
+mov (16|M0)               r11.0<1>:ud   r7.0<1;1,0>:ud\n\
+// Next example shows the destination (r11) located every other element\n\
+mov (8|M0)               r11.0<2>:ud   r7.0<1;1,0>:ud\n\
+// Next example shows the destination (r11) adding an offset of one elements\n\
+mov (8|M0)               r11.1<2>:ud   r7.0<1;1,0>:ud\n\
+// Next example shows the source (r7) modifying v,w,h\n\
+mov (8|M0)               r11.0<1>:ud   r7.0<4;4,2>:ud\n\
+// Next example changing the data type from double word (32 bits) to word (16 bits).\n\
+mov (8|M0)               r11.0<1>:uw   r7.0<8;8,1>:uw";
+    VisualizeClick();
 }
 function setEvetList(obj, evt, func) {
     if ('addEventListener' in window) {

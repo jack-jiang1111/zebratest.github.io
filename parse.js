@@ -1166,7 +1166,7 @@ var CParseSerialSource = (function (_super) {
             this.m_RegNum = parseInt(temp, 10);
             this.m_SubRegNum = 0;
             this.m_Type = 1;
-            this.m_Width = 32;
+            this.m_Width = document.getElementById('bits').value;
         }
     };
     return CParseSerialSource;

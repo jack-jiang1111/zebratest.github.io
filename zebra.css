@@ -495,6 +495,14 @@ span {
     font-size:16px;
 }
 
+#Example{
+    background-color:#306D96;
+    border-radius: 15px;
+    border:none;
+    color:cornsilk;
+    padding:15px 45px;
+    font-size:16px;
+}
 
 #flagTable{
     border-collapse:collapse;

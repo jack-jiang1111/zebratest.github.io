@@ -884,9 +884,9 @@ var CParseSerialDestination = (function () {
         else
             return 0;
     };
-    CParseSerialDestination.prototype.draw = function (tab, extNum, a) {
+    CParseSerialDestination.prototype.draw = function (instructions, extNum, a) {
         this.getType();
-        tab.colorDestSerial(this.m_RegNum, this.m_SubRegNum, a, this.getStep(), this.getThisType(), extNum);
+        instructions.colorDestSerial(this.m_RegNum, this.m_SubRegNum, a, this.getStep(), this.getThisType(), extNum);
     };
     CParseSerialDestination.prototype.getTypeStr = function () {
         return this.m_TypeStr;
@@ -897,10 +897,10 @@ var CParseSerialDestination = (function () {
     CParseSerialDestination.prototype.parse = function (temp) {
         if (temp.indexOf("<") != -1) {
             var tempRe = temp.split("<");
-            this.m_SubRegNum = parseInt((tempRe[0]), 10);
+            this.m_SubRegNum = parseInt((tempRe[0]), 10); // V
             if (tempRe[1]) {
                 if (tempRe[1].indexOf(">") != -1) {
-                    var tempReg = tempRe[1].split(">");
+                    var tempReg = tempRe[1].split(">"); // W
                     this.m_Width = parseInt((tempReg[0]), 10);
                     if (tempReg[1]) {
                         if (tempReg[1].indexOf(":") != -1) {
@@ -927,8 +927,11 @@ var CParseSerialDestination = (function () {
             tempSend.getThisType();
             this.m_TypeStr = tempSend.getTypeStr();
             this.m_SubRegNum = tempSend.getSuReg();
+            console.log(this.m_SubRegNum);
             this.m_Type = tempSend.getThisType();
+            console.log(this.m_Type);
             this.m_Width = tempSend.getStep();
+            console.log(this.m_Width);
             this.m_errorPad[this.m_errorCounter] = "Send instruction- need to decode in: " + this.m_command;
             this.m_errorCounter++;
             this.m_errorFlag = 1;
@@ -1109,26 +1112,38 @@ var CParseSerialSource = (function (_super) {
     CParseSerialSource.prototype.getW = function () {
         return this.m_Width;
     };
-    CParseSerialSource.prototype.drawSerialSourc = function (tab, extNum, color, filerNumber) {
-        tab.colorSourceSerial(this.m_RegNum, this.m_SubRegNum, this.m_Width, this.m_VertStride, this.m_HorzStride, this.m_Type, color, extNum, filerNumber);
+    CParseSerialSource.prototype.drawSerialSourc = function (instructions, extNum, color, filerNumber) {
+        instructions.colorSourceSerial(this.m_RegNum, this.m_SubRegNum, this.m_Width, this.m_VertStride, this.m_HorzStride, this.m_Type, color, extNum, filerNumber);
     };
     CParseSerialSource.prototype.parse2 = function (temp) {
         if (temp.search("<") != -1) {
             var tempRe = temp.split("<");
             if (this.m_flagRegioning == 0)
-                this.m_SubRegNum = parseInt((tempRe[0]), 10);
+                var S = parseInt(document.getElementById('S').value);
+                this.m_SubRegNum = parseInt((tempRe[0]), 10); // S
+                if(S)
+                    this.m_SubRegNum = S;
             if (tempRe[1]) {
                 if (tempRe[1].search(";") != -1) {
-                    var tempH = tempRe[1].split(";");
+                    var tempH = tempRe[1].split(";"); // W
                     this.m_VertStride = parseInt((tempH[0]), 10);
+                    var V = parseInt(document.getElementById('V').value);
+                    if(!V)
+                        this.m_VertStride = V;
                     if (tempH[1]) {
                         if (tempH[1].search(",") != -1) {
-                            var tempW = tempH[1].split(",");
+                            var tempW = tempH[1].split(","); // H
                             this.m_Width = parseInt((tempW[0]), 10);
+                            var W = parseInt(document.getElementById('W').value);
+                            if(!W)
+                                this.m_Width = W;
                             if (tempW[1]) {
                                 if (tempW[1].search(">") != -1) {
                                     var tempV = tempW[1].split(">");
                                     this.m_HorzStride = parseInt((tempV[0]), 10);
+                                    var H = parseInt(document.getElementById('H').value);
+                                    if(H)
+                                        this.m_HorzStride = H;
                                     if (tempV[1]) {
                                         if (tempV[1].search(":") != -1) {
                                             var tempT = tempV[1].split(":");
@@ -1323,7 +1338,7 @@ var CParseParralelSource = (function (_super) {
             }
         }
     };
-    CParseParralelSource.prototype.drawParalSource = function (tab, extNum, destCells, Color) {
+    CParseParralelSource.prototype.drawParalSource = function (instructions, extNum, destCells, Color) {
         this.getNumbers();
         if (destCells.length > 0) {
             destCells = destCells;
@@ -1337,7 +1352,7 @@ var CParseParralelSource = (function (_super) {
             destCells = this.m_cell;
         }
         this.getType();
-        tab.colorSource(this.m_RegNum, this.m_SubRegNum, this.m_Type, this.m_Width, destCells, this.m_cell, Color, extNum);
+        instructions.colorSource(this.m_RegNum, this.m_SubRegNum, this.m_Type, this.m_Width, destCells, this.m_cell, Color, extNum);
     };
     CParseParralelSource.prototype.getString = function () {
         return this.m_line;
@@ -1468,8 +1483,8 @@ var CParseParallelDestination = (function (_super) {
             }
         }
     };
-    CParseParallelDestination.prototype.drawParalDest = function (tab, extNum) {
-        tab.colorDestin(this.m_RegNum, this.m_SubRegNum, this.m_Type, this.m_cell, extNum);
+    CParseParallelDestination.prototype.drawParalDest = function (instructions, extNum) {
+        instructions.colorDestin(this.m_RegNum, this.m_SubRegNum, this.m_Type, this.m_cell, extNum);
     };
     return CParseParallelDestination;
 })(CParseParralelSource);

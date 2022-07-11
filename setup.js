@@ -1116,34 +1116,31 @@ function VisualizeClick() {
             deleteT.removeChild(deleteT.firstChild);
         }
     }
-    var a = document.getElementById('textA'); // get a command from field
-    if (a.value == null ||
-        a.value == '') {
+    var command = document.getElementById('textA'); // get a command from field
+    if (command.value == null ||
+        command.value == '') {
         alert("no data to check!");
     }
     else {
-        var tab = [];
-        var tab2 = [];
-        var j = 0;
+        var instructions = [];
+        var singleInstructionList = [];
+        var EmptyCount = 0;
         var PlatformType = document.getElementById('platforms');
-        tab = a.value.split('\n'); // split each instruction 
-        var b = document.getElementById("OutputTable");
-        for (var i = 0; i < tab.length; i++) {
-            var tabt = tab[i].split(' ');
-            var tabtemp = tabt.join('');
-            if (tab[i] == "" ||
-                tabtemp == "") {
-                j++;
-            }
+        instructions = command.value.split('\n'); // split each instruction 
+        for (var i = 0; i < instructions.length; i++) {
+            var removeSpace = (instructions[i].split(' ')).join('');
+            if (instructions[i] == "" || removeSpace == "") 
+                EmptyCount++;
             else
-                tab2[i - j] = tab[i];
+                singleInstructionList[i - EmptyCount] = instructions[i];
         }
-        for (var i = 0; i < tab2.length; i++) {
+        for (var i = 0; i < singleInstructionList.length; i++) {
             tabOfNumbers[i] = add + i;
-            var app = new CParseRegion(tab2[i], i + add);
+            var app = new CParseRegion(singleInstructionList[i], i + add);
             app.parsing();
             add += app.getAdd();
             listOfErrors[i + 1] = app.gerErrorList();
+
             // define a separate function, so that the parameters passed will be bound as closure
             // this way, we can use send_descriptor and id_name 
             function PostDecoder(send_descriptor, id_name) {
@@ -1185,8 +1182,6 @@ function VisualizeClick() {
         var t = document.getElementById('textA');
         var numberOfRow = t.value.substr(0, t.selectionStart).split("\n").length;
         var name = '#myTable' + (tabOfNumbers[numberOfRow - 2]);
-        /*    var elem = document.getElementById( name );
-           elem.scrollIntoView();*/
         $('html, body').animate({
             scrollTop: $(name).offset().top
         }, 1000);
